@@ -2,12 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Banquet Shift Management Web Portal</title>
+  <title>Banquet Shift Management Portal</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
-
   <style>
     :root {
       --champagne: #f7e7cf;
@@ -18,602 +15,332 @@
       --accent-soft: rgba(198, 167, 125, 0.16);
       --border-soft: rgba(198, 167, 125, 0.35);
     }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { margin:0; padding:0; box-sizing:border-box; }
     body {
-      font-family: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top left, var(--champagne-soft), #ffffff);
-      color: var(--dark);
-      line-height: 1.6;
+      font-family:"Montserrat",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:radial-gradient(circle at top left,var(--champagne-soft),#ffffff);
+      color:var(--dark);
+      line-height:1.6;
     }
-
-    .page {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
+    a { text-decoration:none; color:inherit; }
+    .page { min-height:100vh; display:flex; flex-direction:column; }
     header {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      backdrop-filter: blur(18px);
-      background: linear-gradient(
-        to bottom,
-        rgba(253, 253, 251, 0.98),
-        rgba(253, 253, 251, 0.9),
-        rgba(253, 253, 251, 0.7),
-        transparent
-      );
-      border-bottom: 1px solid rgba(198, 167, 125, 0.18);
+      position:sticky; top:0; z-index:50;
+      backdrop-filter:blur(18px);
+      background:linear-gradient(to bottom,rgba(253,253,251,0.98),rgba(253,253,251,0.9),rgba(253,253,251,0.6),transparent);
+      border-bottom:1px solid rgba(198,167,125,0.18);
     }
-
     .nav {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 1rem 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 2rem;
+      max-width:1200px; margin:0 auto; padding:1rem 1.5rem;
+      display:flex; align-items:center; justify-content:space-between; gap:1.5rem;
     }
-
     .logo {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      font-family: "Playfair Display", serif;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      font-size: 0.9rem;
+      display:flex; align-items:center; gap:0.75rem;
+      font-family:"Playfair Display",serif;
+      text-transform:uppercase; letter-spacing:0.18em; font-size:0.9rem;
     }
-
     .logo-mark {
-      width: 30px;
-      height: 30px;
-      border-radius: 999px;
-      border: 1px solid rgba(198, 167, 125, 0.7);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.7rem;
-      color: var(--accent);
-      background: radial-gradient(circle at 30% 20%, #ffffff, var(--champagne-soft));
+      width:30px; height:30px; border-radius:999px;
+      border:1px solid rgba(198,167,125,0.7);
+      display:flex; align-items:center; justify-content:center;
+      font-size:0.7rem; color:var(--accent);
+      background:radial-gradient(circle at 30% 20%,#ffffff,var(--champagne-soft));
     }
-
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 1.2rem;
-      font-size: 0.8rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
+    .nav-links { display:flex; gap:1.1rem; font-size:0.78rem; letter-spacing:0.18em; text-transform:uppercase; }
+    .nav-links a { position:relative; padding-bottom:0.2rem; color:rgba(43,38,32,0.75); }
+    .nav-links a::after{
+      content:""; position:absolute; left:0; bottom:0; width:0; height:1px;
+      background:linear-gradient(to right,var(--accent),transparent);
+      transition:width 0.2s ease;
     }
-
-    .nav-role-toggle button {
-      border: none;
-      background: transparent;
-      padding: 0.3rem 0.7rem;
-      border-radius: 999px;
-      cursor: pointer;
-      color: rgba(43, 38, 32, 0.7);
-      transition: background 0.2s ease, color 0.2s ease;
-    }
-
-    .nav-role-toggle button.active {
-      background: var(--accent-soft);
-      color: var(--dark);
-    }
-
+    .nav-links a:hover::after{ width:100%; }
     .btn-outline {
-      border: 1px solid rgba(198, 167, 125, 0.7);
-      padding: 0.45rem 1.1rem;
-      border-radius: 999px;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      font-size: 0.78rem;
-      background: rgba(255, 255, 255, 0.9);
-      cursor: pointer;
-      transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+      border:1px solid rgba(198,167,125,0.7); padding:0.5rem 1.1rem; border-radius:999px;
+      text-transform:uppercase; letter-spacing:0.18em; font-size:0.76rem;
+      background:rgba(255,255,255,0.9); cursor:pointer;
+      transition:background 0.2s ease,box-shadow 0.2s ease,transform 0.2s ease;
     }
-
-    .btn-outline:hover {
-      background: var(--champagne-soft);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
-      transform: translateY(-1px);
-    }
-
+    .btn-outline:hover { background:var(--champagne-soft); box-shadow:0 10px 25px rgba(0,0,0,0.07); transform:translateY(-1px); }
     .btn-solid {
-      border: none;
-      border-radius: 999px;
-      background: linear-gradient(135deg, var(--champagne), var(--accent));
-      color: #2b2620;
-      padding: 0.75rem 1.6rem;
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      cursor: pointer;
-      box-shadow: 0 14px 30px rgba(198, 167, 125, 0.45);
-      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      border:none; border-radius:999px;
+      background:linear-gradient(135deg,var(--champagne),var(--accent));
+      color:#2b2620; padding:0.75rem 1.6rem;
+      font-size:0.8rem; text-transform:uppercase; letter-spacing:0.2em;
+      cursor:pointer; box-shadow:0 14px 30px rgba(198,167,125,0.45);
+      transition:transform 0.18s ease,box-shadow 0.18s ease;
     }
-
-    .btn-solid:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 18px 40px rgba(198, 167, 125, 0.55);
+    .btn-solid:hover { transform:translateY(-1px); box-shadow:0 18px 40px rgba(198,167,125,0.55); }
+    main { flex:1; }
+    .hero {
+      max-width:1200px; margin:0 auto; padding:3.2rem 1.5rem 2.5rem;
+      display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,0.9fr); gap:2.8rem; align-items:center;
     }
-
-    main {
-      flex: 1;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2.5rem 1.5rem 3.5rem;
-      display: grid;
-      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-      gap: 2.5rem;
-    }
-
-    /* Left column: Hero & description */
-    .intro {
-      padding-right: 0.5rem;
-    }
-
-    .eyebrow {
-      font-size: 0.78rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: rgba(43, 38, 32, 0.7);
-      margin-bottom: 1rem;
-    }
-
+    .eyebrow { font-size:0.78rem; letter-spacing:0.3em; text-transform:uppercase; color:rgba(43,38,32,0.7); margin-bottom:1rem; }
     h1 {
-      font-family: "Playfair Display", serif;
-      font-size: clamp(2.3rem, 3vw, 3rem);
-      line-height: 1.1;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
+      font-family:"Playfair Display",serif;
+      font-size:clamp(2.4rem,3.4vw,3rem);
+      line-height:1.08; letter-spacing:0.06em;
+      text-transform:uppercase;
     }
-
-    h1 span {
-      display: block;
-    }
-
-    .intro-subtitle {
-      margin-top: 1.3rem;
-      font-size: 0.98rem;
-      max-width: 26rem;
-      color: rgba(43, 38, 32, 0.82);
-    }
-
-    .intro-highlight {
-      margin-top: 1.8rem;
-      padding: 1.1rem 1.2rem;
-      border-radius: 20px;
-      border: 1px solid rgba(198, 167, 125, 0.4);
-      background: rgba(253, 253, 251, 0.9);
-      font-size: 0.9rem;
-    }
-
-    .intro-highlight strong {
-      font-weight: 600;
-    }
-
-    .pill-row {
-      margin-top: 1.2rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
+    h1 span { display:block; }
+    .hero-subtitle { margin-top:1.4rem; font-size:0.98rem; max-width:27rem; color:rgba(43,38,32,0.82); }
+    .hero-cta { margin-top:2rem; display:flex; flex-wrap:wrap; gap:1rem; align-items:center; }
+    .hero-note { font-size:0.78rem; letter-spacing:0.16em; text-transform:uppercase; color:rgba(43,38,32,0.65); }
+    .pill-row { margin-top:1.6rem; display:flex; flex-wrap:wrap; gap:0.55rem; }
     .pill {
-      border-radius: 999px;
-      border: 1px solid rgba(198, 167, 125, 0.35);
-      padding: 0.25rem 0.7rem;
-      font-size: 0.7rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      background: rgba(247, 231, 207, 0.35);
-      color: rgba(43, 38, 32, 0.85);
+      border-radius:999px; border:1px solid rgba(198,167,125,0.35);
+      padding:0.25rem 0.7rem; font-size:0.7rem;
+      letter-spacing:0.16em; text-transform:uppercase;
+      background:rgba(247,231,207,0.35); color:rgba(43,38,32,0.85);
     }
-
-    /* Right column: Portal panel */
-    .portal {
-      position: relative;
+    .hero-card {
+      border-radius:32px; border:1px solid var(--border-soft);
+      background:rgba(253,253,251,0.96);
+      box-shadow:0 24px 60px rgba(0,0,0,0.08),0 0 0 1px rgba(255,255,255,0.85) inset;
+      padding:1.6rem 1.5rem 1.8rem; backdrop-filter:blur(18px);
     }
-
-    .portal-shell {
-      border-radius: 32px;
-      border: 1px solid var(--border-soft);
-      background: rgba(253, 253, 251, 0.96);
-      box-shadow:
-        0 24px 60px rgba(0, 0, 0, 0.08),
-        0 0 0 1px rgba(255, 255, 255, 0.85) inset;
-      padding: 1.4rem 1.4rem 1.6rem;
-      backdrop-filter: blur(18px);
+    .hero-card-title {
+      font-family:"Playfair Display",serif;
+      font-size:1.05rem; text-transform:uppercase; letter-spacing:0.16em; margin-bottom:0.4rem;
     }
-
-    .portal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    .portal-title {
-      font-family: "Playfair Display", serif;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      font-size: 0.9rem;
-    }
-
-    .portal-subtext {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: rgba(43, 38, 32, 0.6);
-    }
-
-    .badge {
-      padding: 0.3rem 0.8rem;
-      border-radius: 999px;
-      font-size: 0.7rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      border: 1px solid rgba(198, 167, 125, 0.6);
-      background: rgba(247, 231, 207, 0.4);
-    }
-
-    /* Tabs */
-    .tab-bar {
-      display: flex;
-      overflow-x: auto;
-      gap: 0.4rem;
-      margin-bottom: 1rem;
-      padding-bottom: 0.1rem;
-    }
-
-    .tab-btn {
-      border: none;
-      background: transparent;
-      padding: 0.5rem 0.95rem;
-      border-radius: 999px;
-      font-size: 0.78rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: rgba(43, 38, 32, 0.6);
-      cursor: pointer;
-      white-space: nowrap;
-      border: 1px solid transparent;
-      transition: background 0.18s ease, color 0.18s ease, border 0.18s ease;
-    }
-
-    .tab-btn.active {
-      background: var(--accent-soft);
-      border-color: var(--border-soft);
-      color: var(--dark);
-    }
-
-    .portal-body {
-      border-radius: 24px;
-      border: 1px solid var(--border-soft);
-      padding: 1.1rem 1.2rem 1.3rem;
-      background: rgba(253, 253, 251, 0.98);
-      min-height: 320px;
-      display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-      gap: 1.2rem;
-    }
-
-    .panel {
-      display: none;
-    }
-
-    .panel.active {
-      display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-      gap: 1.2rem;
-    }
-
-    .panel-left,
-    .panel-right {
-      font-size: 0.86rem;
-    }
-
-    .panel-title {
-      font-family: "Playfair Display", serif;
-      font-size: 1rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      margin-bottom: 0.6rem;
-    }
-
     .small-label {
-      font-size: 0.74rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: rgba(43, 38, 32, 0.6);
-      margin-bottom: 0.2rem;
+      font-size:0.74rem; letter-spacing:0.16em; text-transform:uppercase; color:rgba(43,38,32,0.6); margin-bottom:0.25rem;
     }
-
-    .field {
-      margin-bottom: 0.75rem;
-    }
-
-    .input,
-    select,
-    textarea {
-      width: 100%;
-      border-radius: 999px;
-      border: 1px solid rgba(198, 167, 125, 0.5);
-      padding: 0.6rem 0.9rem;
-      font-size: 0.86rem;
-      background: rgba(255, 255, 255, 0.96);
-      outline: none;
-      transition: border 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
-      font-family: inherit;
-      color: inherit;
-    }
-
-    textarea {
-      border-radius: 18px;
-      min-height: 90px;
-      resize: vertical;
-    }
-
-    .input:focus,
-    select:focus,
-    textarea:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 1px rgba(198, 167, 125, 0.55);
-      background: #ffffff;
-    }
-
-    .note {
-      font-size: 0.78rem;
-      color: rgba(43, 38, 32, 0.68);
-      margin-bottom: 0.75rem;
-    }
-
-    .divider {
-      border-top: 1px solid rgba(198, 167, 125, 0.35);
-      margin: 0.8rem 0;
-    }
-
-    .chip-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-      margin-bottom: 0.7rem;
-    }
-
-    .chip {
-      padding: 0.25rem 0.7rem;
-      border-radius: 999px;
-      border: 1px solid rgba(198, 167, 125, 0.35);
-      font-size: 0.7rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      background: rgba(247, 231, 207, 0.45);
-    }
-
+    .stat-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0.8rem; margin-top:0.6rem; }
     .stat-card {
-      border-radius: 18px;
-      border: 1px solid rgba(198, 167, 125, 0.35);
-      padding: 0.7rem 0.8rem;
-      background: rgba(253, 253, 251, 0.96);
-      margin-bottom: 0.6rem;
-      font-size: 0.78rem;
+      border-radius:18px; border:1px solid rgba(198,167,125,0.35);
+      padding:0.7rem 0.8rem; background:rgba(253,253,251,0.96); font-size:0.8rem;
     }
-
-    .stat-label {
-      font-size: 0.68rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: rgba(43, 38, 32, 0.6);
+    .stat-label { font-size:0.7rem; letter-spacing:0.16em; text-transform:uppercase; color:rgba(43,38,32,0.6); }
+    .stat-value { font-size:0.9rem; margin-top:0.15rem; }
+    section {
+      max-width:1200px; margin:0 auto; padding:2.4rem 1.5rem 0;
     }
-
-    .stat-value {
-      font-size: 0.92rem;
-      margin-top: 0.1rem;
+    .section-title {
+      font-family:"Playfair Display",serif;
+      font-size:1.4rem; letter-spacing:0.18em;
+      text-transform:uppercase; margin-bottom:1.6rem;
     }
-
-    .list {
-      list-style: none;
-      font-size: 0.8rem;
+    .section-grid {
+      display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1.7rem;
     }
-
-    .list li {
-      display: flex;
-      justify-content: space-between;
-      padding: 0.3rem 0;
-      border-bottom: 1px dashed rgba(198, 167, 125, 0.3);
+    .card {
+      border-radius:24px; border:1px solid var(--border-soft);
+      background:rgba(253,253,251,0.94); padding:1.3rem 1.3rem 1.4rem;
     }
-
-    .pill-count {
-      font-variant-numeric: tabular-nums;
-      color: rgba(43, 38, 32, 0.7);
+    .card h3 {
+      font-family:"Playfair Display",serif;
+      font-size:1rem; letter-spacing:0.14em; text-transform:uppercase; margin-bottom:0.55rem;
     }
-
+    .card p { font-size:0.9rem; color:rgba(43,38,32,0.85); }
+    .card-meta {
+      margin-top:0.8rem; font-size:0.78rem; text-transform:uppercase;
+      letter-spacing:0.14em; color:rgba(43,38,32,0.65);
+    }
     .accent-orbit {
-      position: absolute;
-      width: 260px;
-      height: 260px;
-      border-radius: 50%;
-      border: 1px solid rgba(198, 167, 125, 0.35);
-      top: -35px;
-      right: -30px;
-      z-index: -1;
-      opacity: 0.85;
+      position:absolute; width:260px; height:260px; border-radius:50%;
+      border:1px solid rgba(198,167,125,0.35); top:-40px; right:-40px; z-index:-1; opacity:0.85;
     }
-
-    .accent-orbit::before {
-      content: "";
-      position: absolute;
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      border: 1px solid rgba(198, 167, 125, 0.4);
-      top: 40px;
-      left: 40px;
+    .accent-orbit::before{
+      content:""; position:absolute; width:180px; height:180px;
+      border-radius:50%; border:1px solid rgba(198,167,125,0.4); top:40px; left:40px;
     }
-
-    .accent-orbit::after {
-      content: "";
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--accent);
-      top: 16px;
-      right: 22px;
-      box-shadow: 0 0 16px rgba(198, 167, 125, 0.9);
+    .accent-orbit::after{
+      content:""; position:absolute; width:12px; height:12px; border-radius:50%;
+      background:var(--accent); top:16px; right:22px; box-shadow:0 0 16px rgba(198,167,125,0.9);
     }
-
     footer {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 1.6rem 1.5rem 2.1rem;
-      font-size: 0.76rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: rgba(43, 38, 32, 0.55);
-      border-top: 1px solid rgba(198, 167, 125, 0.3);
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 0.8rem;
+      max-width:1200px; margin:0 auto; padding:2.1rem 1.5rem 2.4rem;
+      font-size:0.76rem; letter-spacing:0.16em; text-transform:uppercase;
+      color:rgba(43,38,32,0.55); border-top:1px solid rgba(198,167,125,0.3);
+      display:flex; justify-content:space-between; flex-wrap:wrap; gap:0.8rem;
     }
-
-    @media (max-width: 960px) {
-      main {
-        grid-template-columns: 1fr;
-        padding-top: 2rem;
-      }
-
-      .portal-body,
-      .panel.active {
-        grid-template-columns: 1fr;
-      }
-
-      .accent-orbit {
-        display: none;
-      }
+    @media(max-width:900px){
+      .hero{ grid-template-columns:1fr; padding-top:2.6rem; }
+      .section-grid{ grid-template-columns:1fr; }
+      .accent-orbit{ display:none; }
     }
-
-    @media (max-width: 640px) {
-      .nav {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-      }
+    @media(max-width:640px){
+      .nav{ flex-direction:column; align-items:flex-start; gap:0.5rem; }
     }
   </style>
 </head>
 <body>
-  <div class="page">
-    <header>
-      <div class="nav">
-        <div class="logo">
-          <div class="logo-mark">B</div>
-          Banquet Shift Portal
-        </div>
-        <div class="nav-right">
-          <div class="nav-role-toggle">
-            <button class="active" id="toggle-staff">Staff View</button>
-            <button id="toggle-admin">Admin View</button>
-          </div>
-          <button class="btn-outline" onclick="scrollToLogin()">Portal Login</button>
-        </div>
+<div class="page">
+  <header>
+    <div class="nav">
+      <div class="logo">
+        <div class="logo-mark">B</div>
+        Banquet Shift Portal
       </div>
-    </header>
+      <nav class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#operations">Operations</a>
+        <a href="#contact">Contact</a>
+        <a class="btn-outline" href="portal-login.html">Sign In</a>
+      </nav>
+    </div>
+  </header>
 
-    <main>
-      <!-- Left column: intro -->
-      <section class="intro">
-        <div class="eyebrow">White-Glove Workforce Coordination</div>
+  <main>
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Luxury Event Workforce Management</div>
         <h1>
           <span>Banquet Shift</span>
           <span>Management Web Portal</span>
         </h1>
-        <p class="intro-subtitle">
-          A tailored portal for luxury venues and caterers to manage
-          full-time and on‑call banquet staff, automate shift creation, and
-          maintain immaculate records—from first login to final signature.
+        <p class="hero-subtitle">
+          A curated portal for luxury venues and caterers to coordinate full‑time
+          and tiered on‑call banquet staff, automate shifts, and maintain pristine
+          records from login to signed sheets.
         </p>
-
-        <div class="intro-highlight" id="login-section">
-          <strong>Role-based login with manual approval.</strong>
-          <br />
-          Staff create accounts (Full-time, On‑Call 1, On‑Call 2) and are granted
-          access only after manager approval. Managers sign in through a
-          dedicated admin entrance to post, publish, and oversee every shift.
+        <div class="hero-cta">
+          <a href="portal-login.html" class="btn-solid">Enter Portal</a>
+          <span class="hero-note">Tiered access • Manual approval • Detailed reporting</span>
         </div>
-
         <div class="pill-row">
-          <span class="pill">Tiered Staff Levels</span>
-          <span class="pill">Manual & Automated Shifts</span>
-          <span class="pill">Hours & PDF Sign‑in Sheets</span>
+          <span class="pill">Full‑Time & On‑Call Levels</span>
+          <span class="pill">PDF & Excel Shift Automation</span>
+          <span class="pill">Hours & Sign‑In Sheets</span>
           <span class="pill">Internal Messaging</span>
         </div>
-      </section>
+      </div>
 
-      <!-- Right column: mock portal -->
-      <section class="portal">
-        <div class="portal-shell">
-          <div class="portal-header">
-            <div>
-              <div class="portal-title">Portal Preview</div>
-              <div class="portal-subtext" id="portal-mode-label">
-                Staff Registration & Login · Awaiting Manager Approval
+      <div style="position:relative;">
+        <div class="hero-card">
+          <div class="hero-card-title">Tonight's Gala Overview</div>
+          <div class="small-label">Sample Admin Snapshot</div>
+          <div class="stat-grid">
+            <div class="stat-card">
+              <div class="stat-label">Shifts Published</div>
+              <div class="stat-value">14 • Tiered by Level</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Pick‑up Timeline</div>
+              <div class="stat-value">First pickup at 09:12 AM</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Hours Projected</div>
+              <div class="stat-value">126.5 Staff Hours</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Sign‑in Sheets</div>
+              <div class="stat-value">4 PDFs Ready for Printing</div>
+            </div>
+          </div>
+        </div>
+        <div class="accent-orbit"></div>
+      </div>
+    </section>
+
+    <section id="features">
+      <h2 class="section-title">Role-Based Access & Shift Management</h2>
+      <div class="section-grid">
+        <article class="card">
+          <h3>User Roles & Tiers</h3>
+          <p>
+            Create accounts for Full‑Time, On‑Call Level 1, and On‑Call Level 2
+            staff, with a flexible tier structure for future levels. Staff logins are
+            held in a pending state until a manager approves access.
+          </p>
+          <p class="card-meta">Scalable tiers · Manual approval · Audit‑ready</p>
+        </article>
+        <article class="card">
+          <h3>Shift Creation & Uniforms</h3>
+          <p>
+            Manually create banquet shifts with dedicated uniform requirements,
+            or upload PDF/Excel event orders to auto‑generate shifts using
+            parsing tools like pdf‑parse and xlsx.
+          </p>
+          <p class="card-meta">Uniform tabs · File upload · Smart parsing</p>
+        </article>
+        <article class="card">
+          <h3>Publishing & Pickup Control</h3>
+          <p>
+            Publish shifts to specific levels or open them to all staff. Capture
+            exactly who posted each shift and the precise timestamp when it was
+            picked up for full transparency and accountability.
+          </p>
+          <p class="card-meta">Tier targeting · Mass publish · Time‑stamped logs</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="operations">
+      <h2 class="section-title">Reporting & Operations</h2>
+      <div class="section-grid">
+        <article class="card">
+          <h3>Hours & Summaries</h3>
+          <p>
+            Generate detailed hours reports by staff member, event, or date
+            range. Support payroll, invoicing, and internal oversight with
+            reconciled shift‑based hours.
+          </p>
+          <p class="card-meta">Export‑ready · Staff & event views</p>
+        </article>
+        <article class="card">
+          <h3>Digital Sign‑In Sheets</h3>
+          <p>
+            Automatically create printable PDF sign‑in sheets for each event,
+            including columns for name, role, time in/out, and physical
+            signatures—perfect for on‑site compliance.
+          </p>
+          <p class="card-meta">PDF generation · Signature columns</p>
+        </article>
+        <article class="card">
+          <h3>Internal Messaging</h3>
+          <p>
+            Keep communication discreet and centralized with internal
+            messaging between staff and management: announcements,
+            confirmations, and shift clarifications in one channel.
+          </p>
+          <p class="card-meta">Staff ↔ Management · Message history</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2 class="section-title">Schedule a Private Demo</h2>
+      <div style="max-width:650px;">
+        <div class="card">
+          <h3>White‑Glove Implementation</h3>
+          <p style="font-size:0.9rem; color:rgba(43,38,32,0.85); margin-bottom:1rem;">
+            Share your venue details and staffing model to explore a tailored
+            deployment of the Banquet Shift Management Web Portal.
+          </p>
+          <form>
+            <div style="display:grid; gap:0.8rem;">
+              <div>
+                <div class="small-label">Name</div>
+                <input type="text" class="input" placeholder="First & Last Name" />
+              </div>
+              <div>
+                <div class="small-label">Email</div>
+                <input type="email" class="input" placeholder="name@company.com" />
+              </div>
+              <div>
+                <div class="small-label">Venue / Company</div>
+                <input type="text" class="input" placeholder="Venue or Catering Company" />
+              </div>
+              <div>
+                <div class="small-label">Message</div>
+                <textarea class="input" style="border-radius:16px; min-height:110px;" placeholder="Share typical event size, staffing model, and any specific requirements."></textarea>
+              </div>
+              <div>
+                <button type="button" class="btn-solid">Request Demo</button>
               </div>
             </div>
-            <span class="badge" id="portal-role-badge">Staff Portal</span>
-          </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
 
-          <!-- Tabs -->
-          <div class="tab-bar" id="tab-bar">
-            <button class="tab-btn active" data-tab="auth">Auth & Roles</button>
-            <button class="tab-btn" data-tab="shifts">Shift Management</button>
-            <button class="tab-btn" data-tab="pickup">Publishing & Pickup</button>
-            <button class="tab-btn" data-tab="reports">Reporting</button>
-            <button class="tab-btn" data-tab="messaging">Messaging</button>
-          </div>
-
-          <!-- Panels -->
-          <div class="portal-body">
-            <!-- Auth & Roles -->
-            <div class="panel active" id="panel-auth">
-              <div class="panel-left">
-                <div class="panel-title">Staff Registration</div>
-                <p class="note">
-                  Staff select their tiered account type; requests remain in
-                  <strong>Pending Approval</strong> until an admin manually activates
-                  the profile.
-                </p>
-
-                <div class="field">
-                  <div class="small-label">Full Name</div>
-                  <input class="input" type="text" placeholder="First & Last Name" />
-                </div>
-
-                <div class="field">
-                  <div class="small-label">Email</div>
-                  <input class="input" type="email" placeholder="name@example.com" />
-                </div>
-
-                <div class="field">
-                  <div class="small-label">Password</div>
-                  <input class="input" type="password" placeholder="Create a secure password" />
-                </div>
-
-                <div class="field">
-                  <div class="small-label">Account Type</div>
-                  <select>
-                    <option>Full-time Staff</option>
-                    <option>On-Call Level 1</option>
-                    <option>On-Call Level
+  <footer>
+    <span>© Banquet Shift Portal · Crafted for luxury events</span>
+    <span><a href="portal-login.html">Staff & Manager Sign In</a></span>
+  </footer>
+</div>
+</body>
+</html>
